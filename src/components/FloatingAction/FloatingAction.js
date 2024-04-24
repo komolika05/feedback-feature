@@ -41,8 +41,8 @@ const fabMenuItems = [
 function FloatingAction({
   optionsToShow = ["contactUs", "suggestions", "feedback", "issue"],
 }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const [selectedOption, setSelectedOption] = useState("contactUs");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState();
 
   const filteredOptions = fabMenuItems.filter((option) =>
     shouldShowOption(optionsToShow, option.key)
@@ -50,7 +50,7 @@ function FloatingAction({
 
   return (
     <div className={`floating-action-container`}>
-      {isMenuOpen && <FabCard />}
+      {selectedOption && <FabCard />}
       <div
         className={`floating-action-menu ${
           selectedOption && "floating-action-menu-row"
