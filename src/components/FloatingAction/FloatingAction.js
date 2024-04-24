@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import FabButton from "../FabButton/FabButton";
 import DocumentIcon from "../../assets/icons/document.png";
@@ -52,6 +52,8 @@ function FloatingAction({
   const [suggestionText, setSuggestionUsText] = useState("");
   const [contactUsText, setContactUsText] = useState("");
 
+  const [toastMessage, setToastMessage] = useState("");
+
   function isFormSubmissionEnabled() {
     if (selectedOption === "issue") {
       return issueText.length;
@@ -85,9 +87,11 @@ function FloatingAction({
             label="Describe the Issue in detail"
             isMandatory
             onChangeText={(text) => setIssueText(text)}
-            value={issueText} 
+            value={issueText}
           />,
         ],
+        thankYouMessage:
+          "Thanks for bringing the issue to our attention. We'll review it shortly and provide an update soon!",
       },
     },
     {
@@ -96,7 +100,13 @@ function FloatingAction({
       iconUrl: LikesIcon,
       formDetails: {
         title: "Let us know your Feedback about us!",
-        inputs: [<TextArea onChangeText={(text) => setFeedbackText(text)} value={feedbackText}  />],
+        inputs: [
+          <TextArea
+            onChangeText={(text) => setFeedbackText(text)}
+            value={feedbackText}
+          />,
+        ],
+        thankYouMessage: "Thanks for your Valuable Feedback!",
       },
     },
     {
@@ -111,9 +121,10 @@ function FloatingAction({
             label="Describe the Suggestion in detail"
             isMandatory
             onChangeText={(text) => setSuggestionUsText(text)}
-            value={suggestionText} 
+            value={suggestionText}
           />,
         ],
+        thankYouMessage: "Thanks for your Valuable Suggestion!",
       },
     },
     {
@@ -128,9 +139,10 @@ function FloatingAction({
             label="What would you like to ask?"
             isMandatory
             onChangeText={(text) => setContactUsText(text)}
-            value={contactUsText} 
+            value={contactUsText}
           />,
         ],
+        thankYouMessage: "We will get back to you as soon as possible!",
       },
     },
   ];
@@ -138,9 +150,18 @@ function FloatingAction({
   const filteredOptions = fabMenuItems.filter((option) =>
     shouldShowOption(optionsToShow, option.key)
   );
+
   const selectedMenuItem = fabMenuItems.find(
     (item) => item.key === selectedOption
   );
+
+  useEffect(() => {
+    if (toastMessage.length) {
+      setTimeout(() => {
+        setToastMessage("");
+      }, 5000);
+    }
+  }, [toastMessage]);
 
   return (
     <div className={`floating-action-container`}>
@@ -148,8 +169,21 @@ function FloatingAction({
         <FabCard
           formDetails={selectedMenuItem.formDetails}
           isSubmitAllowed={isFormSubmissionEnabled()}
+          onSubmit={() => {
+            setToastMessage(selectedMenuItem.formDetails.thankYouMessage);
+            setSelectedOption(null);
+            setIsMenuOpen(false);
+          }}
         />
       )}
+
+      {toastMessage && (
+        <div className="toast">
+          <div class="triangle"></div>
+          {toastMessage}
+        </div>
+      )}
+
       <div
         className={`floating-action-menu ${
           selectedOption && "floating-action-menu-row"

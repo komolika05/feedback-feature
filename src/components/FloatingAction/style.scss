@@ -1,19 +1,43 @@
 .floating-action-container {
-    position: absolute;
-    bottom: 32px;
-    right: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+
+  .toast {
+    width: 340px;
+    background-color: #F8F8F8;
+    font-size: 18px;
+    text-align: center;
+    color:#0F0F0F;
+    font-weight: 600;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    position: relative;
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #fff;
+      position: absolute;
+      bottom: -10px;
+      right: 20px; /* Position at the bottom right corner */
+    }
   }
+}
   
-  .floating-action-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-  }
-  
-  .floating-action-menu-row {
-    display: flex;
-    flex-direction: row;
-  }
+.floating-action-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.floating-action-menu-row {
+  display: flex;
+  flex-direction: row;
+}
