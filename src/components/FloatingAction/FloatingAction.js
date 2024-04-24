@@ -10,47 +10,100 @@ import FlagIcon from "../../assets/icons/flag.png";
 
 import FabMenuItem from "../FabMenuItem/FabMenuItem";
 import FabCard from "../FabCard/FabCard";
+import Dropdown from "../Form/Dropdown/Dropdown";
+import TextArea from "../Form/TextArea/TextArea";
+import TextInput from "../Form/TextInput/TextInput";
 
 function shouldShowOption(allowedOptions, optionType) {
   return allowedOptions.includes(optionType);
 }
-
-const fabMenuItems = [
+const dropdownOptions = [
   {
-    key: "issue",
-    title: "Report an Issue",
-    iconUrl: FlagIcon,
+    label: "Concept Cards",
+    value: "concept_cards",
   },
   {
-    key: "feedback",
-    title: "Share Feedback",
-    iconUrl: LikesIcon,
+    label: "Interview Questions",
+    value: "interview_questions",
   },
   {
-    key: "suggestions",
-    title: "Give Suggestions",
-    iconUrl: WriteIcon,
+    label: "Practice Questions",
+    value: "practice_questions",
   },
   {
-    key: "contactUs",
-    title: "Contact Us",
-    iconUrl: FeedbackIcon,
+    label: "Quizzes",
+    value: "quizzes",
+  },
+  {
+    label: "Others",
+    value: "others",
   },
 ];
 
 function FloatingAction({
   optionsToShow = ["contactUs", "suggestions", "feedback", "issue"],
 }) {
+  const fabMenuItems = [
+    {
+      key: "issue",
+      title: "Report an Issue",
+      iconUrl: FlagIcon,
+      formDetails: {
+        title: "Let us know about the Issue you are facing right now!",
+        inputs: [
+          <Dropdown label="Choose a section" labelValues={dropdownOptions} />,
+          <TextArea label="Describe the Issue in detail" isMandatory />,
+        ],
+      },
+    },
+    {
+      key: "feedback",
+      title: "Share Feedback",
+      iconUrl: LikesIcon,
+      formDetails: {
+        title: "Let us know your Feedback about us!",
+        inputs: [<TextArea />],
+      },
+    },
+    {
+      key: "suggestions",
+      title: "Give Suggestions",
+      iconUrl: WriteIcon,
+      formDetails: {
+        title: "Share your Suggestions with us for a chance to earn rewards!",
+        inputs: [
+          <Dropdown label="Choose a section" labelValues={dropdownOptions} />,
+          <TextArea label="Describe the Suggestion in detail" isMandatory />,
+        ],
+      },
+    },
+    {
+      key: "contactUs",
+      title: "Contact Us",
+      iconUrl: FeedbackIcon,
+      formDetails: {
+        title: "Get in Contact with us for your queries",
+        inputs: [
+          <TextInput label="Your Name" placeholder="Enter Your Name" />,
+          <TextArea label="What would you like to ask?" isMandatory />,
+        ],
+      },
+    },
+  ];
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState();
 
   const filteredOptions = fabMenuItems.filter((option) =>
     shouldShowOption(optionsToShow, option.key)
   );
+  const selectedMenuItem = fabMenuItems.find(
+    (item) => item.key === selectedOption
+  );
 
   return (
     <div className={`floating-action-container`}>
-      {selectedOption && <FabCard />}
+      {selectedOption && <FabCard formDetails={selectedMenuItem.formDetails} />}
       <div
         className={`floating-action-menu ${
           selectedOption && "floating-action-menu-row"
