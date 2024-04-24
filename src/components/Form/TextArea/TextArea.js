@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-function TextArea({ label, onChange, isMandatory }) {
+function TextArea({ label, onChangeText = () => {}, isMandatory, value = "" }) {
   return (
     <div className="textarea-container">
       <span className="label">
@@ -12,6 +12,8 @@ function TextArea({ label, onChange, isMandatory }) {
         rows="4"
         cols="50"
         placeholder="Write here..."
+        onChange={(event) => onChangeText(event.target.value)}
+        value={value}
       />
     </div>
   );

@@ -17,6 +17,7 @@ import TextInput from "../Form/TextInput/TextInput";
 function shouldShowOption(allowedOptions, optionType) {
   return allowedOptions.includes(optionType);
 }
+
 const dropdownOptions = [
   {
     label: "Concept Cards",
@@ -43,6 +44,34 @@ const dropdownOptions = [
 function FloatingAction({
   optionsToShow = ["contactUs", "suggestions", "feedback", "issue"],
 }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState();
+
+  const [issueText, setIssueText] = useState("");
+  const [feedbackText, setFeedbackText] = useState("");
+  const [suggestionText, setSuggestionUsText] = useState("");
+  const [contactUsText, setContactUsText] = useState("");
+
+  function isFormSubmissionEnabled() {
+    if (selectedOption === "issue") {
+      return issueText.length;
+    }
+
+    if (selectedOption === "feedback") {
+      return feedbackText.length;
+    }
+
+    if (selectedOption === "suggestions") {
+      return suggestionText.length;
+    }
+
+    if (selectedOption === "contactUs") {
+      return contactUsText.length;
+    }
+
+    return true;
+  }
+
   const fabMenuItems = [
     {
       key: "issue",
@@ -52,7 +81,12 @@ function FloatingAction({
         title: "Let us know about the Issue you are facing right now!",
         inputs: [
           <Dropdown label="Choose a section" labelValues={dropdownOptions} />,
-          <TextArea label="Describe the Issue in detail" isMandatory />,
+          <TextArea
+            label="Describe the Issue in detail"
+            isMandatory
+            onChangeText={(text) => setIssueText(text)}
+            value={issueText} 
+          />,
         ],
       },
     },
@@ -62,7 +96,7 @@ function FloatingAction({
       iconUrl: LikesIcon,
       formDetails: {
         title: "Let us know your Feedback about us!",
-        inputs: [<TextArea />],
+        inputs: [<TextArea onChangeText={(text) => setFeedbackText(text)} value={feedbackText}  />],
       },
     },
     {
@@ -73,7 +107,12 @@ function FloatingAction({
         title: "Share your Suggestions with us for a chance to earn rewards!",
         inputs: [
           <Dropdown label="Choose a section" labelValues={dropdownOptions} />,
-          <TextArea label="Describe the Suggestion in detail" isMandatory />,
+          <TextArea
+            label="Describe the Suggestion in detail"
+            isMandatory
+            onChangeText={(text) => setSuggestionUsText(text)}
+            value={suggestionText} 
+          />,
         ],
       },
     },
@@ -85,14 +124,16 @@ function FloatingAction({
         title: "Get in Contact with us for your queries",
         inputs: [
           <TextInput label="Your Name" placeholder="Enter Your Name" />,
-          <TextArea label="What would you like to ask?" isMandatory />,
+          <TextArea
+            label="What would you like to ask?"
+            isMandatory
+            onChangeText={(text) => setContactUsText(text)}
+            value={contactUsText} 
+          />,
         ],
       },
     },
   ];
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState();
 
   const filteredOptions = fabMenuItems.filter((option) =>
     shouldShowOption(optionsToShow, option.key)
@@ -103,7 +144,12 @@ function FloatingAction({
 
   return (
     <div className={`floating-action-container`}>
-      {selectedOption && <FabCard formDetails={selectedMenuItem.formDetails} />}
+      {selectedOption && (
+        <FabCard
+          formDetails={selectedMenuItem.formDetails}
+          isSubmitAllowed={isFormSubmissionEnabled()}
+        />
+      )}
       <div
         className={`floating-action-menu ${
           selectedOption && "floating-action-menu-row"
