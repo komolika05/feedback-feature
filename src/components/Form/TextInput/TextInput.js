@@ -3,7 +3,7 @@ import "./style.scss";
 
 function TextInput({
   label,
-  onChangeText,
+  onChangeText = () => {},
   isMandatory,
   placeholder = "Enter your input",
 }) {
@@ -12,7 +12,13 @@ function TextInput({
       <span className="label">
         {label} {isMandatory ? <span className="mandatory">*</span> : ""}
       </span>
-      <input className="input" rows="4" cols="50" placeholder={placeholder} onChange={(event) => onChangeText(event.target.value)} />
+      <input
+        className="input"
+        rows="4"
+        cols="50"
+        placeholder={placeholder}
+        onChange={(event) => onChangeText(event.target.value)}
+      />
     </div>
   );
 }

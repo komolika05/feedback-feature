@@ -18,7 +18,7 @@ function FabMenuItem({
       onClick={onPress}
     >
       {showLabel && <span className="label">{title}</span>}
-      <FabButton iconUrl={iconUrl} />
+      <FabButton iconUrl={iconUrl} isActive={isSelected} />
     </div>
   );
 }

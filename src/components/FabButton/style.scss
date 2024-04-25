@@ -9,4 +9,21 @@
   border-radius: 30px;
   background-color: $mainWhite;
   cursor: pointer;
+  position: relative;;
+
+  .fab-active {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%);
+    height: 68px;
+    width: 68px;
+    background-color: none;
+    z-index: -1;
+    border-radius: 35px;
+    border-width: 2px;
+    border-color: $mainWhite;
+    border-style: solid;
+  }
 }
+
