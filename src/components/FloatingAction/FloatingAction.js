@@ -164,13 +164,34 @@ function FloatingAction({
   }, [toastMessage]);
 
   return (
-    <div className={`floating-action-container`}>
+    <div
+      className={`floating-action-container ${
+        selectedOption ? "fab-menu-mobile-item" : ""
+      }`}
+    >
       {selectedOption && (
         <FabCard
           formDetails={selectedMenuItem.formDetails}
           isSubmitAllowed={isFormSubmissionEnabled()}
           onSubmit={() => {
             setToastMessage(selectedMenuItem.formDetails.thankYouMessage);
+
+            if (selectedOption === "contactUs") {
+              setContactUsText("");
+            }
+
+            if (selectedOption === "issue") {
+              setIssueText("");
+            }
+
+            if (selectedOption === "suggestions") {
+              setSuggestionUsText("");
+            }
+
+            if (selectedOption === "feedback") {
+              setFeedbackText("");
+            }
+
             setSelectedOption(null);
             setIsMenuOpen(false);
           }}

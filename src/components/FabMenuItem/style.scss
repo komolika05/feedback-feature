@@ -3,6 +3,7 @@
     flex-direction: row;
     margin-bottom: 16px;
     align-items: center;
+    animation: fadeIn 1.5s ease;
   
     .label {
       display: flex;
@@ -17,7 +18,20 @@
     }
   }
 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
 .fab-menu-item-container-selected {
+    background-color: #f7f2f2;
+    border-radius: 50%;
+    border: #f8f8f8;
+    padding: 1%;
   }
   
   .fab-menu-item-container-horizontal {
