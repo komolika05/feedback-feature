@@ -43,6 +43,7 @@ const dropdownOptions = [
 
 function FloatingAction({
   optionsToShow = ["contactUs", "suggestions", "feedback", "issue"],
+  isUserLoggedIn = false,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState();
@@ -52,6 +53,10 @@ function FloatingAction({
   const [suggestionText, setSuggestionUsText] = useState("");
   const [contactUsText, setContactUsText] = useState("");
 
+  const [feedbackEmail, setFeedbackEmail] = useState("");
+  const [suggestionEmail, setSuggestionUsEmail] = useState("");
+  const [contactUsEmail, setContactUsEmail] = useState("");
+
   const [toastMessage, setToastMessage] = useState("");
 
   function isFormSubmissionEnabled() {
@@ -60,15 +65,15 @@ function FloatingAction({
     }
 
     if (selectedOption === "feedback") {
-      return feedbackText.length;
+      return feedbackText.length && (!isUserLoggedIn ? feedbackEmail.length: true);
     }
 
     if (selectedOption === "suggestions") {
-      return suggestionText.length;
+      return suggestionText.length && (!isUserLoggedIn ? suggestionEmail.length: true);
     }
 
     if (selectedOption === "contactUs") {
-      return contactUsText.length;
+      return contactUsText.length && (!isUserLoggedIn ? contactUsEmail.length: true);
     }
 
     return true;
@@ -105,6 +110,16 @@ function FloatingAction({
             onChangeText={(text) => setFeedbackText(text)}
             value={feedbackText}
           />,
+          ...(isUserLoggedIn === false
+            ? [
+                <TextInput
+                  label="Your Email"
+                  placeholder="Enter Your Email"
+                  isMandatory
+                  onChangeText={(text) => setFeedbackEmail(text)}
+                />,
+              ]
+            : [<></>]),
         ],
         thankYouMessage: "Thanks for your Valuable Feedback!",
       },
@@ -123,6 +138,16 @@ function FloatingAction({
             onChangeText={(text) => setSuggestionUsText(text)}
             value={suggestionText}
           />,
+          ...(isUserLoggedIn === false
+            ? [
+                <TextInput
+                  label="Your Email"
+                  placeholder="Enter Your Email"
+                  isMandatory
+                  onChangeText={(text) => setSuggestionUsEmail(text)}
+                />,
+              ]
+            : [<></>]),
         ],
         thankYouMessage: "Thanks for your Valuable Suggestion!",
       },
@@ -141,6 +166,16 @@ function FloatingAction({
             onChangeText={(text) => setContactUsText(text)}
             value={contactUsText}
           />,
+          ...(isUserLoggedIn === false
+            ? [
+                <TextInput
+                  label="Your Email"
+                  placeholder="Enter Your Email"
+                  isMandatory
+                  onChangeText={(text) => setContactUsEmail(text)}
+                />,
+              ]
+            : [<></>]),
         ],
         thankYouMessage: "We will get back to you as soon as possible!",
       },
