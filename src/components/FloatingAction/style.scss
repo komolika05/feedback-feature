@@ -41,6 +41,12 @@
       }
     }
   }
+
+  @media only screen and (max-width: 48em){
+    .toast{
+      width: 80%;
+    }
+  }
 }
   
 .floating-action-menu {
